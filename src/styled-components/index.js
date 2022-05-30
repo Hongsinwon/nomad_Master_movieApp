@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import { ThemeProvider } from 'styled-components';
 import App from './App';
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+//const root = ReactDOM.createRoot(document.getElementById('root'));
 
 const darkTheme = {
   textColor: 'whitesmoke',
@@ -15,10 +15,10 @@ const lightTheme = {
   backgroundColor: 'whitesmoke',
 };
 
-root.render(
-  <React.StrictMode>
-    <ThemeProvider theme={lightTheme}>
-      <App />
-    </ThemeProvider>
-  </React.StrictMode>
-);
+// root.render(
+//   // <React.StrictMode>
+//   //   <ThemeProvider theme={lightTheme}>
+//   //     <App />
+//   //   </ThemeProvider>
+//   // </React.StrictMode>
+// );
