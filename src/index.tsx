@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM, { createRoot } from 'react-dom/client';
 import { ThemeProvider } from 'styled-components';
-import { lightTheme, darkTheme } from './theme';
-import App2 from './App2';
+import { theme } from './theme';
+import App from './App';
 
 // const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -14,8 +14,8 @@ const root = createRoot(rootElement as Element);
 
 root.render(
   <React.StrictMode>
-    <ThemeProvider theme={darkTheme}>
-      <App2 />
+    <ThemeProvider theme={theme}>
+      <App />
     </ThemeProvider>
   </React.StrictMode>
 );

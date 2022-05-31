@@ -1,13 +1,13 @@
-// 주소  - https://styled-components.com/docs/api#typescript
+// // 주소  - https://styled-components.com/docs/api#typescript
 
-// import original module declarations
-import 'styled-components';
+// // import original module declarations
+// import 'styled-components';
 
-// and extend them!
-declare module 'styled-components' {
-  export interface DefaultTheme {
-    textColor: string;
-    bgColor: string;
-    btnColor: string;
-  }
-}
+// // and extend them!
+// declare module 'styled-components' {
+//   export interface DefaultTheme {
+//     textColor: string;
+//     bgColor: string;
+//     btnColor: string;
+//   }
+// }
