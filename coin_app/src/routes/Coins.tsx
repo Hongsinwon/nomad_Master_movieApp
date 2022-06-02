@@ -92,10 +92,10 @@ const Coins = () => {
   return (
     <Container>
       <Helmet>
-        <title>코인</title>
+        <title>코인 트레커</title>
       </Helmet>
       <Header>
-        <Title>코인</Title>
+        <Title>코인 트레커</Title>
       </Header>
       {isLoading ? (
         <Loader>로딩중...</Loader>
