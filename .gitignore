@@ -2,6 +2,7 @@
 
 # dependencies
 /node_modules
+/coin_app/node_modules
 /.pnp
 .pnp.js
 

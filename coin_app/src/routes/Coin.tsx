@@ -136,15 +136,15 @@ interface PriceData {
 }
 
 const Coin = () => {
-  const [loading, setLoading] = useState(true);
-
   // useParams는 URL 인자들의 key/value(키/값) 짝들의 객체를 반환한다.
   // 현재 <Route> 의 match.params에 접근하기 위해 사용한다.
 
   //react-router-dom v6 이상인 경우, useParams() 만 쓰더라도 타입이 string | undefined 일 거라고 알아서 예상해 줍니다.
   const { coinId } = useParams<keyof RouteParams>() as RouteParams;
+  console.log(coinId);
   const { state } = useLocation() as LocationParams;
 
+  const [loading, setLoading] = useState(true);
   const [info, setInfo] = useState<InfoData>();
   const [priceInfo, setPriceInfo] = useState<PriceData>();
 
