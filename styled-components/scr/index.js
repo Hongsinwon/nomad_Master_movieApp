@@ -5,6 +5,7 @@ import App from './App';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
+
 const darkTheme = {
   textColor: 'whitesmoke',
   backgroundColor: '#111',
@@ -22,3 +23,4 @@ root.render(
     </ThemeProvider>
   </React.StrictMode>
 );
+
