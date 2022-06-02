@@ -2,7 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { useQuery } from 'react-query';
 import { Link } from 'react-router-dom';
-import { useLocation, useParams, Outlet, useMatch } from 'react-router-dom';
+import {
+  useLocation,
+  useParams,
+  Outlet,
+  useMatch,
+  useNavigate,
+} from 'react-router-dom';
 import styled from 'styled-components';
 import { fetchCoinInfo, fetchCoinTickers } from './api';
 
@@ -15,11 +21,21 @@ const Container = styled.div`
 const Header = styled.header`
   height: 10vh;
   display: flex;
-  justify-content: center;
   align-items: center;
 `;
 
+const BackBtn = styled.button`
+  position: fixed;
+  font-size: 2rem;
+  background: transparent;
+  border: none;
+`;
+
 const Title = styled.h1`
+  display: flex;
+  justify-content: center;
+  max-width: 480px;
+  width: 100%;
   font-size: 4rem;
   color: ${(props) => props.theme.accentColor};
 `;
@@ -145,6 +161,7 @@ const Coin = () => {
   //react-router-dom v6 이상인 경우, useParams() 만 쓰더라도 타입이 string | undefined 일 거라고 알아서 예상해 줍니다.
   const { coinId } = useParams<keyof RouteParams>() as RouteParams;
   const { state } = useLocation() as LocationParams;
+  const navigate = useNavigate();
 
   const priceMatch = useMatch('/:coinId/price');
   const chartMatch = useMatch('/:coinId/chart');
@@ -197,6 +214,7 @@ const Coin = () => {
         </title>
       </Helmet>
       <Header>
+        <BackBtn onClick={() => navigate('/')}>⬅️</BackBtn>
         <Title>
           {state?.name ? state.name : loading ? 'Loading...' : infoData?.name}
         </Title>
