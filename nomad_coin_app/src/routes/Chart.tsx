@@ -1,24 +1,10 @@
 import { useQuery } from 'react-query';
 import { useParams } from 'react-router-dom';
-import { fetchCoinHistory } from './api';
+import { fetchCoinHistory } from '../api/api';
 import ApexChart from 'react-apexcharts';
 import { isDarkAtom } from '../atom';
 import { useRecoilValue } from 'recoil';
-
-interface IHistorical {
-  time_open: string;
-  time_close: string;
-  open: number;
-  high: number;
-  low: number;
-  close: number;
-  volume: number;
-  market_cap: number;
-}
-
-interface CharParams {
-  coinId: string;
-}
+import { CharParams, IHistorical } from '../type/Chart';
 
 const Chart = () => {
   const isDark = useRecoilValue(isDarkAtom);

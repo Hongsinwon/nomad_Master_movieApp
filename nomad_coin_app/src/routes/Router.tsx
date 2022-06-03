@@ -1,9 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Coin, Coins, Chart, Price } from './index';
 
-interface IRouterProps {}
-
-function Router({}: IRouterProps) {
+function Router() {
   return (
     <BrowserRouter>
       <Routes>

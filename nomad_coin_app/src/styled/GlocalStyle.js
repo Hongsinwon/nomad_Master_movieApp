@@ -1,15 +1,7 @@
-import Router from './routes/Router';
 import { createGlobalStyle } from 'styled-components';
-import { ReactQueryDevtools } from 'react-query/devtools';
 
-import { ThemeProvider } from 'styled-components';
-import { darkTheme, lightTheme } from './theme';
-
-import { useRecoilValue } from 'recoil';
-import { isDarkAtom } from './atom';
-
-const GlocalStyle = createGlobalStyle`
-@import url('https://fonts.googleapis.com/css2?family=Song+Myung&display=swap');
+export const GlocalStyle = createGlobalStyle`
+@import url('https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap');
 
 * {
   margin: 0;
@@ -127,7 +119,7 @@ html {
 }
 body {
   line-height: 1;
-  font-family: 'Song Myung', serif;
+  font-family: 'Black Han Sans', sans-serif;
   font-size : 1.4rem;
   background-color: ${(props) => props.theme.bgColor};
   
@@ -167,23 +159,3 @@ table {
   border-spacing: 0;
 }
 `;
-
-function App() {
-  // const [isDark, setIsDark] = useState(true);
-  // const toggleDark = () => setIsDark((current) => !current);
-
-  const isDark = useRecoilValue(isDarkAtom);
-
-  return (
-    <>
-      <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
-        <GlocalStyle />
-        <Router />
-        {/* react query툴인데 캐시에 어떤 query가 있는지 보여줌 + 결과 data 출력 */}
-        <ReactQueryDevtools initialIsOpen={true} />
-      </ThemeProvider>
-    </>
-  );
-}
-
-export default App;
