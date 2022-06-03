@@ -1,7 +1,12 @@
-import React from 'react';
 import Router from './routes/Router';
 import { createGlobalStyle } from 'styled-components';
 import { ReactQueryDevtools } from 'react-query/devtools';
+
+import { ThemeProvider } from 'styled-components';
+import { darkTheme, lightTheme } from './theme';
+
+import { useRecoilValue } from 'recoil';
+import { isDarkAtom } from './atom';
 
 const GlocalStyle = createGlobalStyle`
 @import url('https://fonts.googleapis.com/css2?family=Song+Myung&display=swap');
@@ -164,12 +169,19 @@ table {
 `;
 
 function App() {
+  // const [isDark, setIsDark] = useState(true);
+  // const toggleDark = () => setIsDark((current) => !current);
+
+  const isDark = useRecoilValue(isDarkAtom);
+
   return (
     <>
-      <GlocalStyle />
-      <Router />
-      {/* react query툴인데 캐시에 어떤 query가 있는지 보여줌 + 결과 data 출력 */}
-      <ReactQueryDevtools initialIsOpen={true} />
+      <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
+        <GlocalStyle />
+        <Router />
+        {/* react query툴인데 캐시에 어떤 query가 있는지 보여줌 + 결과 data 출력 */}
+        <ReactQueryDevtools initialIsOpen={true} />
+      </ThemeProvider>
     </>
   );
 }

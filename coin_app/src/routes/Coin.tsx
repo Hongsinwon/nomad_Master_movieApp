@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { useQuery } from 'react-query';
 import { Link } from 'react-router-dom';
@@ -29,6 +28,7 @@ const BackBtn = styled.button`
   font-size: 2rem;
   background: transparent;
   border: none;
+  cursor: pointer;
 `;
 
 const Title = styled.h1`
