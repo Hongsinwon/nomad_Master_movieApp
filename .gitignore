@@ -4,6 +4,7 @@
 /node_modules
 /coin_app/node_modules
 /nomad_styled_components/node_modules
+/nomad_typescript/node_modules
 /.pnp
 .pnp.js
 

@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { useQuery } from 'react-query';
 import { Link } from 'react-router-dom';
@@ -84,17 +85,19 @@ interface ICoin {
 
 const Coins = () => {
   const setDarkAtom = useSetRecoilState(isDarkAtom);
-  const toggleDarkAtom = setDarkAtom((current) => !current);
+  const toggleDarkAtom = () => {
+    setDarkAtom((current) => !current);
+    return null;
+  };
 
   //isLoading 👉 함수를 불렀는지 아닌지 알려준다. 함수가 끝났을때 결과를 fetchConins에 넣어줍니다.
   //fetchConins에 넣은데이터를 data에 쉬운 방법으로 접근 할 수 있도록 도와줍니다.
 
   //'allCoins'이라는 고유의 key값을 react query에 넘겨주면 이미 캐시가 있는 data는 바로 화면이 보여준다.
-  const { isLoading, data } = useQuery<ICoin[]>('allCoins', fetchCoins);
+  // const { isLoading, data } = useQuery<ICoin[]>('allCoins', fetchCoins);
 
-  /*   
-  const [coins, setCoins] = useState<ICoin[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [data, setCoins] = useState<ICoin[]>([]);
+  const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
     (async () => {
@@ -104,7 +107,6 @@ const Coins = () => {
       setLoading(false);
     })();
   }, []);
-   */
 
   return (
     <Container>
@@ -113,23 +115,26 @@ const Coins = () => {
       </Helmet>
       <Header>
         <Title>코인 트레커</Title>
-        <DarkModeBtn onClick={() => toggleDarkAtom}>다크모드 ⭐</DarkModeBtn>
+        <DarkModeBtn onClick={toggleDarkAtom}>다크모드 ⭐</DarkModeBtn>
       </Header>
       {isLoading ? (
         <Loader>로딩중...</Loader>
       ) : (
         <CoinList>
-          {data?.map((coin) => (
-            <Coin key={coin.id}>
-              <Link to={`/${coin.id}`} state={{ name: coin.name }}>
-                <Img
-                  src={`https://cryptocurrencyliveprices.com/img/${coin.id}.png`}
-                  alt={coin.name}
-                />
-                {coin.name} &rarr;
-              </Link>
-            </Coin>
-          ))}
+          {data?.map((coin) => {
+            console.log(coin);
+            return (
+              <Coin key={coin.id}>
+                <Link to={`/${coin.id}`} state={{ name: coin.name }}>
+                  <Img
+                    src={`https://cryptocurrencyliveprices.com/img/${coin.id}.png`}
+                    alt={coin.name}
+                  />
+                  {coin.name} &rarr;
+                </Link>
+              </Coin>
+            );
+          })}
         </CoinList>
       )}
     </Container>
