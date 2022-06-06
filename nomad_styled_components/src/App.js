@@ -81,6 +81,10 @@ const BoxWeapper = styled.div`
       font-size: 100px;
     }
   }
+  
+  ${Emoji}:hover {
+    font-size: 150px
+  }
 `;
 
 // ---------------------------------------------------------------------------
