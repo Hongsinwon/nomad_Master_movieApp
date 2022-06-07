@@ -2,9 +2,12 @@
 
 # dependencies
 /node_modules
-/nomad_coin_app/node_modules
+
 /nomad_styled_components/node_modules
 /nomad_typescript/node_modules
+/nomad_coin_app/node_modules
+/nomad_todolist/node_modules
+
 /.pnp
 .pnp.js
 

@@ -25,11 +25,13 @@ const Coins = () => {
   const setDarkAtom = useSetRecoilState(isDarkAtom);
   const toggleDarkAtom = () => {
     setDarkAtom((current) => !current);
+    setDarkBtn((current) => !current);
     return null;
   };
 
   const [data, setCoins] = useState<ICoin[]>([]);
   const [isLoading, setLoading] = useState(true);
+  const [darkBtn, setDarkBtn] = useState(true);
 
   useEffect(() => {
     (async () => {
@@ -47,7 +49,9 @@ const Coins = () => {
       </Helmet>
       <Header>
         <Title>코인 트레커</Title>
-        <DarkModeBtn onClick={toggleDarkAtom}>다크모드 ⭐</DarkModeBtn>
+        <DarkModeBtn onClick={toggleDarkAtom}>
+          {darkBtn ? '🌃 다크모드' : '🏙️ 라이트모드'}
+        </DarkModeBtn>
       </Header>
       {isLoading ? (
         <Loader>로딩중...</Loader>

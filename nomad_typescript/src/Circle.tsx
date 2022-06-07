@@ -12,7 +12,7 @@ const Container = styled.div<ContainerProps>`
   height: 200px;
   background-color: ${(props) => props.bgColor};
   border-radius: 50%;
-  border: 3px solid ${(props) => props.borderColor};
+  border: 3px solid ${(props) => props.borderColor}; //하단에 디폴트 값지정
 `;
 
 //타입설정
