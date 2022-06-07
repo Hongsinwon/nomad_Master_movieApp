@@ -1,5 +1,5 @@
 import { GlocalStyle } from './styled/GlocalStyle'; //styled-components
-import ToDoList from './ToDoList';
+import ToDoList from './components/ToDoList';
 
 function App() {
   return (

@@ -119,18 +119,12 @@ html {
 }
 body {
   line-height: 1;
-  font-family: 'Black Han Sans', sans-serif;
+  font-family: sans-serif;
   font-size : 1.4rem;
   background-color: ${(props) => props.theme.bgColor};
   
 }
-body,
-input,
-button,
-select,
-textarea,
-th,
-td {
+body {
   color: ${(props) => props.theme.textColor};
 }
 a {
