@@ -37,6 +37,7 @@ const Coins = () => {
   const [darkBtn, setDarkBtn] = useState(true);
 
   useEffect(() => {
+    //즉시실행 함수
     (async () => {
       const response = await fetch(`https://api.coinpaprika.com/v1/coins`);
       const josn = await response.json();

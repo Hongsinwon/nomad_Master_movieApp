@@ -18,3 +18,20 @@ ReactDOM.render(
 
   document.getElementById('root')
 );
+
+/*
+CoinPaprika
+https://api.coinpaprika.com/#tag/Tickers
+
+React Query
+https://react-query.tanstack.com 
+
+CSS 재설정
+https://github.com/zacanger/styled-reset/blob/master/src/index.ts
+
+Google 글꼴
+https://fonts.google.com
+
+JSON데이터를 타입스크립트 타입으로 빠르게 변환시켜주는 사이트
+https://app.quicktype.io/?l=ts
+*/
