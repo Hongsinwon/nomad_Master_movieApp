@@ -29,6 +29,9 @@ const Coins = () => {
     return null;
   };
 
+  // const { isLoading, data } = useQuery<ICoin[]>('allCoins', fetchCoins);
+
+  // 주석 처리 해야하는 것
   const [data, setCoins] = useState<ICoin[]>([]);
   const [isLoading, setLoading] = useState(true);
   const [darkBtn, setDarkBtn] = useState(true);
@@ -41,6 +44,7 @@ const Coins = () => {
       setLoading(false);
     })();
   }, []);
+  // ------ 주석 끝 ------
 
   return (
     <Container>

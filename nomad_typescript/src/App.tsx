@@ -1,6 +1,15 @@
 import React from 'react';
 import { useState } from 'react';
 import Circle from './Circle';
+import styled from 'styled-components';
+
+const Container = styled.div`
+  background-color: ${(props) => props.theme.bgColor};
+`;
+
+const H1 = styled.h1`
+  color: ${(props) => props.theme.textColor};
+`;
 
 function App() {
   const [value, setValue] = useState('');
@@ -33,6 +42,10 @@ function App() {
         />
         <button> 로그인</button>
       </form>
+
+      <Container>
+        <H1>내용입니다.</H1>
+      </Container>
     </>
   );
 }
