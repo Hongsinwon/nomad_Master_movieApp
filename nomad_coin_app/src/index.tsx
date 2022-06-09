@@ -34,4 +34,8 @@ https://fonts.google.com
 
 JSON데이터를 타입스크립트 타입으로 빠르게 변환시켜주는 사이트
 https://app.quicktype.io/?l=ts
+
+현대적이고 인터랙티브한 오픈 소스 차트
+npm install --save react-apexcharts apexcharts
+https://apexcharts.com
 */

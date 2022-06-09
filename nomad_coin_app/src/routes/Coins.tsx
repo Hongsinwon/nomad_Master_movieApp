@@ -23,28 +23,29 @@ import { ICoin } from '../type/Coins';
 
 const Coins = () => {
   const setDarkAtom = useSetRecoilState(isDarkAtom);
+  const [darkBtn, setDarkBtn] = useState(true);
+
   const toggleDarkAtom = () => {
     setDarkAtom((current) => !current);
     setDarkBtn((current) => !current);
     return null;
   };
 
-  // const { isLoading, data } = useQuery<ICoin[]>('allCoins', fetchCoins);
+  const { isLoading, data } = useQuery<ICoin[]>('allCoins', fetchCoins);
 
   // 주석 처리 해야하는 것
-  const [data, setCoins] = useState<ICoin[]>([]);
-  const [isLoading, setLoading] = useState(true);
-  const [darkBtn, setDarkBtn] = useState(true);
+  // const [data, setCoins] = useState<ICoin[]>([]);
+  // const [isLoading, setLoading] = useState(true);
 
-  useEffect(() => {
-    //즉시실행 함수
-    (async () => {
-      const response = await fetch(`https://api.coinpaprika.com/v1/coins`);
-      const josn = await response.json();
-      setCoins(josn.slice(0, 100));
-      setLoading(false);
-    })();
-  }, []);
+  // useEffect(() => {
+  //   //즉시실행 함수
+  //   (async () => {
+  //     const response = await fetch(`https://api.coinpaprika.com/v1/coins`);
+  //     const josn = await response.json();
+  //     setCoins(josn.slice(0, 100));
+  //     setLoading(false);
+  //   })();
+  // }, []);
   // ------ 주석 끝 ------
 
   return (
@@ -62,7 +63,7 @@ const Coins = () => {
         <Loader>로딩중...</Loader>
       ) : (
         <CoinList>
-          {data?.map((coin) => {
+          {data?.slice(0, 100).map((coin) => {
             return (
               <Coin key={coin.id}>
                 <Link to={`/${coin.id}`} state={{ name: coin.name }}>
