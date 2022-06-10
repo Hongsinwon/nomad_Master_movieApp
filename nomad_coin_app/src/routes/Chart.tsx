@@ -1,60 +1,86 @@
+import React from 'react';
 import { useQuery } from 'react-query';
 import { useParams } from 'react-router-dom';
 import { fetchCoinHistory } from '../api/api';
 import ApexChart from 'react-apexcharts';
-import { isDarkAtom } from '../atom';
-import { useRecoilValue } from 'recoil';
-import { CharParams, IHistorical } from '../type/Chart';
 
+interface IHistorical {
+  time_open: string;
+  time_close: string;
+  open: number;
+  high: number;
+  low: number;
+  close: number;
+  volume: number;
+  market_cap: number;
+}
+
+interface CharParams {
+  coinId: string;
+}
 const Chart = () => {
-  const isDark = useRecoilValue(isDarkAtom);
-
   const { coinId } = useParams<keyof CharParams>() as CharParams;
 
   const { isLoading, data } = useQuery<IHistorical[]>(['ohlcv', coinId], () =>
     fetchCoinHistory(coinId)
   );
 
+  console.log(data);
   return (
     <div>
       {isLoading ? (
         '차트 로딩중...'
       ) : (
         <ApexChart
-          type='candlestick'
+          // 기존 인강 버전 그래프
+          // type="line"
           // series={[
-          //   {data?.map((price) => {
-          //       return [
-          //         Date.parse(price.time_close),
-          //         price.open,
-          //         price.high,
-          //         price.low,
-          //         price.close,
-          //       ];
-          //     }),
-          //   },
+          //   {
+          //     name: "가격",
+          //     data: data.map((price) => price.close) as number[]
+          //   }
           // ]}
+
+          type='candlestick'
+          series={[
+            {
+              data: data?.map((price) => {
+                return {
+                  x: price.time_open,
+                  y: [
+                    price.open.toFixed(2),
+                    price.high.toFixed(2),
+                    price.low.toFixed(2),
+                    price.close.toFixed(2),
+                  ],
+                };
+              }),
+            } as unknown as number,
+          ]}
           options={{
-            theme: { mode: isDark ? 'dark' : 'light' },
+            theme: { mode: 'light' },
             chart: {
-              type: 'candlestick',
               height: 300,
               width: 500,
-              toolbar: { show: false },
+              //toolbar: { show: false },
               background: 'transparent',
             },
-            stroke: { curve: 'smooth', width: 2 },
-            // grid: { show: false },
+            stroke: { curve: 'smooth', width: 4 },
+            //grid: { show: false },
             yaxis: { show: false },
             xaxis: {
-              axisTicks: { show: false },
-              axisBorder: { show: false },
-              labels: { show: false },
+              //axisTicks: { show: false },
+              //axisBorder: { show: false },
+              //labels: { show: false },
               type: 'datetime',
-              categories: [1, 2, 3, 4, 5, 6],
-              //categories: data?.map((price) => price.time_close) as string[],
+              categories: data?.map((price) => price.time_close) as string[],
+            },
+            fill: {
+              type: 'gradient',
+              gradient: { gradientToColors: ['#0be881'], stops: [0, 100] },
             },
             colors: ['#0fbcf9'],
+            tooltip: { y: { formatter: (value) => `$${value.toFixed(2)}` } },
           }}
         />
       )}
@@ -63,7 +89,3 @@ const Chart = () => {
 };
 
 export default Chart;
-
-/*  
-// 차트
-*/

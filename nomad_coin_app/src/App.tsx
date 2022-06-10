@@ -1,5 +1,5 @@
-import Router from './routes/Router';
-import { ReactQueryDevtools } from 'react-query/devtools';
+import { BrowserRouter as Router } from 'react-router-dom';
+//import { ReactQueryDevtools } from "react-query/devtools";
 
 import { ThemeProvider } from 'styled-components';
 import { darkTheme, lightTheme } from './theme';
@@ -21,7 +21,7 @@ function App() {
         <GlocalStyle />
         <Router />
         {/* react query툴인데 캐시에 어떤 query가 있는지 보여줌 + 결과 data 출력 */}
-        <ReactQueryDevtools initialIsOpen={true} />
+        {/* <ReactQueryDevtools initialIsOpen={true} /> */}
       </ThemeProvider>
     </>
   );
