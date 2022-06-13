@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { GlocalStyle } from './styled/GlocalStyle';
-import App from './AnimateBox';
+import App from './SharedLayout';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
