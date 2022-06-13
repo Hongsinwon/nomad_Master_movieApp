@@ -1,11 +1,11 @@
-import { useEffect, useState } from 'react';
-import { Helmet } from 'react-helmet';
-import { useQuery } from 'react-query';
-import { Link } from 'react-router-dom';
-import { useSetRecoilState } from 'recoil';
+import { useEffect, useState } from "react";
+import { Helmet } from "react-helmet";
+import { useQuery } from "react-query";
+import { Link } from "react-router-dom";
+import { useSetRecoilState } from "recoil";
 
-import { isDarkAtom } from '../atom';
-import { fetchCoins } from '../api/api';
+import { isDarkAtom } from "../atom";
+import { fetchCoins } from "../api/api";
 
 // styled components
 import {
@@ -16,13 +16,14 @@ import {
   Loader,
   CoinList,
   Coin,
-  Img,
-} from '../styled/Coins';
+  Img
+} from "../styled/Coins";
 
-import { ICoin } from '../type/Coins';
+import { ICoin } from "../type/Coins";
 
 const Coins = () => {
   const setDarkAtom = useSetRecoilState(isDarkAtom);
+
   const [darkBtn, setDarkBtn] = useState(true);
 
   const toggleDarkAtom = () => {
@@ -31,14 +32,13 @@ const Coins = () => {
     return null;
   };
 
-  const { isLoading, data } = useQuery<ICoin[]>('allCoins', fetchCoins);
+  const { isLoading, data } = useQuery<ICoin[]>("allCoins", fetchCoins);
 
   // 주석 처리 해야하는 것
   // const [data, setCoins] = useState<ICoin[]>([]);
   // const [isLoading, setLoading] = useState(true);
 
   // useEffect(() => {
-  //   //즉시실행 함수
   //   (async () => {
   //     const response = await fetch(`https://api.coinpaprika.com/v1/coins`);
   //     const josn = await response.json();
@@ -56,7 +56,7 @@ const Coins = () => {
       <Header>
         <Title>코인 트레커</Title>
         <DarkModeBtn onClick={toggleDarkAtom}>
-          {darkBtn ? '🌃 다크모드' : '🏙️ 라이트모드'}
+          {darkBtn ? "🌃 다크모드" : "🏙️ 라이트모드"}
         </DarkModeBtn>
       </Header>
       {isLoading ? (

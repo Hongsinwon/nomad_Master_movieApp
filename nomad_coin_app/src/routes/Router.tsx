@@ -3,8 +3,7 @@ import { Coin, Coins, Chart, Price } from './index';
 
 function Router() {
   return (
-    // <BrowserRouter basename={process.env.PUBLIC_URL}>
-    <BrowserRouter>
+    <BrowserRouter basename={process.env.PUBLIC_URL}>
       <Routes>
         <Route path='/' element={<Coins />} />
         {/* 

@@ -1,13 +1,13 @@
-import { BrowserRouter as Router } from 'react-router-dom';
+import Router from "./routes/Router";
 //import { ReactQueryDevtools } from "react-query/devtools";
 
-import { ThemeProvider } from 'styled-components';
-import { darkTheme, lightTheme } from './theme';
+import { ThemeProvider } from "styled-components";
+import { darkTheme, lightTheme } from "./theme";
 
-import { useRecoilValue } from 'recoil';
-import { isDarkAtom } from './atom';
+import { useRecoilValue } from "recoil";
+import { isDarkAtom } from "./atom";
 
-import { GlocalStyle } from './styled/GlocalStyle'; //styled-components
+import { GlocalStyle } from "./styled/GlocalStyle"; //styled-components
 
 function App() {
   // const [isDark, setIsDark] = useState(true);

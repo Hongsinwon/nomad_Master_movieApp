@@ -21,29 +21,4 @@ root.render(
   </React.StrictMode>
 );
 
-/*
-CoinPaprika
-https://api.coinpaprika.com/#tag/Tickers
-
-React Query
-https://react-query.tanstack.com 
-
-CSS 재설정
-https://github.com/zacanger/styled-reset/blob/master/src/index.ts
-
-Google 글꼴
-https://fonts.google.com
-
-JSON데이터를 타입스크립트 타입으로 빠르게 변환시켜주는 사이트
-https://app.quicktype.io/?l=ts
-
-현대적이고 인터랙티브한 오픈 소스 차트
-npm install --save react-apexcharts apexcharts
-https://apexcharts.com
-
-18버전 업데이트
-npm i react@next react-dom@next
-
-createRoot 속성 업데이트
-npm i @types/react @types/react-dom
-*/
+//npm i react@next react-dom@next

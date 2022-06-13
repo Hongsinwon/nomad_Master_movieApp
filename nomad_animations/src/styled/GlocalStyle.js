@@ -121,12 +121,9 @@ body {
   line-height: 1;
   font-family: sans-serif;
   font-size : 1.4rem;
-  background-color: ${(props) => props.theme.bgColor};
   
 }
-body {
-  color: ${(props) => props.theme.textColor};
-}
+
 a {
   text-decoration: none;
   color: inherit;

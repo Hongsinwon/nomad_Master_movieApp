@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import App from './App.tsx';
-
+import { GlocalStyle } from './styled/GlocalStyle';
+import App from './AnimateBox';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -9,7 +9,7 @@ const root = ReactDOM.createRoot(
 
 root.render(
   <React.StrictMode>
-   
+    <GlocalStyle />
     <App />
   </React.StrictMode>
 );

@@ -48,7 +48,6 @@ const Coin = () => {
   const { state } = useLocation() as LocationParams;
   const navigate = useNavigate();
 
-  //해당 URL이 있는지 확인하기위해 사용하는 HOOK
   const priceMatch = useMatch('/:coinId/price');
   const chartMatch = useMatch('/:coinId/chart');
 

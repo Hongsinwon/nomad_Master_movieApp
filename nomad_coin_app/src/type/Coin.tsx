@@ -64,11 +64,3 @@ export interface PriceData {
     };
   };
 }
-
-/* 
-console.log에서 데이터 정리하기 (노마드 코드  4-6강)
-1. console.log 안에 있는 console => 오른쪽 마우스 => Store object as global varible
-2. object 데이터 저장 출력 확인 (temp1 ...)
-3. key 배열 받아오기 => Object.keys(temp1).join()
-4. value 배열 받아오기 => Object.values(temp1).map((v)=> typeof v).join();
-*/

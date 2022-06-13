@@ -1,14 +1,20 @@
 import React, { useEffect, useRef } from 'react';
 import styled from 'styled-components';
-import { motion, useMotionValue, useTransform } from 'framer-motion';
+import {
+  motion,
+  useMotionValue,
+  useTransform,
+  useViewportScroll,
+} from 'framer-motion';
 
-const Wrapper = styled.div`
+const Wrapper = styled(motion.div)`
   min-height: 100vh;
   width: 100vw;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  /* background: ; */
 `;
 
 // 기본 animation
@@ -125,15 +131,30 @@ function App() {
   const biggerBoxRef = useRef<HTMLDivElement>(null);
 
   const x = useMotionValue(0);
-  const potato = useTransform(x, [-800, 0, 800], [2, 1, 0]);
+  const rotateZ = useTransform(x, [-800, 800], [-360, 360]);
 
-  useEffect(() => {
-    x.onChange(() => console.log(x.get()));
-    potato.onChange(() => console.log(potato.get()));
-  }, [x]);
+  const gradient = useTransform(
+    x,
+    [-800, 800],
+    [
+      'linear-gradient(135deg, rgb(0, 210, 238), rgb(0, 83, 238))',
+      'linear-gradient(135deg, rgb(0, 238, 155), rgb(238, 178, 0))',
+    ]
+  );
+  const { scrollY, scrollYProgress } = useViewportScroll();
+  const scale = useTransform(scrollYProgress, [0, 1], [1, 5]);
+
+  // useEffect(() => {
+  //   scrollY.onChange(() => console.log(scrollY.get(), scrollYProgress.get()));
+  // }, [scrollY, scrollYProgress]);
+
+  // useEffect(() => {
+  //   x.onChange(() => console.log(x.get()));
+  //   rotateZ.onChange(() => console.log(rotateZ.get()));
+  // }, [x]);
 
   return (
-    <Wrapper>
+    <Wrapper style={{ background: gradient }}>
       {/* 기본 animation */}
       <Box
         transition={{ type: 'spring', stiffness: 10, damping: 5 }}
@@ -204,7 +225,7 @@ function App() {
       {/* motionValues  */}
       <div>
         <button onClick={() => x.set(200)}>클릭</button>
-        <Box3 style={{ x, scale: potato }} drag='x' dragSnapToOrigin />
+        <Box3 style={{ x, rotateZ, scale }} drag='x' dragSnapToOrigin />
       </div>
     </Wrapper>
   );

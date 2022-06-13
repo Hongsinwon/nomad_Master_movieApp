@@ -4,6 +4,14 @@ import { Categories, categoryState, toDoSelector } from '../atoms';
 import CreateToDo from './CreateToDo';
 import ToDo from './ToDo';
 
+import {
+  WrapDiv,
+  TodoTitle,
+  TodoForm,
+  TodoSelect,
+  TodoOption,
+} from '../styled/styled.js';
+
 function ToDoList() {
   // 1은 2-1, 2-2 를 합친것
   // 1. const [toDos, setToDos] = useRecoilState(toDoState);
@@ -22,15 +30,15 @@ function ToDoList() {
   console.log(toDos);
 
   return (
-    <div>
-      <h1>나의 ToDo List</h1>
-      <form>
-        <select value={category} onInput={onInput}>
-          <option value={Categories.TO_DO}> To Do</option>
-          <option value={Categories.DOING}> Doing</option>
-          <option value={Categories.DONE}> Done</option>
-        </select>
-      </form>
+    <WrapDiv>
+      <TodoTitle>나의 ToDo List</TodoTitle>
+      <TodoForm>
+        <TodoSelect value={category} onInput={onInput}>
+          <TodoOption value={Categories.TO_DO}> To Do</TodoOption>
+          <TodoOption value={Categories.DOING}> Doing</TodoOption>
+          <TodoOption value={Categories.DONE}> Done</TodoOption>
+        </TodoSelect>
+      </TodoForm>
       <CreateToDo />
       {toDos?.map((todo) => (
         <ToDo key={todo.id} {...todo} />
@@ -42,7 +50,7 @@ function ToDoList() {
         doing.map((todo) => <ToDo key={todo.id} {...todo} />)}
       {category === 'DONE' &&
         done.map((todo) => <ToDo key={todo.id} {...todo} />)} */}
-    </div>
+    </WrapDiv>
   );
 }
 export default ToDoList;

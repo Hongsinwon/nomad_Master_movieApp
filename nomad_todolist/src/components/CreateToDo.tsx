@@ -1,7 +1,8 @@
-import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { categoryState, toDoState } from '../atoms';
+
+import { WrapDiv, TodoForm, TodoInput, TodoBtn } from '../styled/styled.js';
 
 interface IForm {
   toDo: string;
@@ -21,17 +22,17 @@ const CreateToDo = () => {
   };
 
   return (
-    <div>
-      <form onSubmit={handleSubmit(handleValid)}>
-        <input
+    <WrapDiv>
+      <TodoForm onSubmit={handleSubmit(handleValid)}>
+        <TodoInput
           {...register('toDo', {
             required: 'Please write a To Do',
           })}
-          placeholder='Write a to do'
+          placeholder='오늘의 할일을 적어주세요'
         />
-        <button>Add</button>
-      </form>
-    </div>
+        <TodoBtn>등록</TodoBtn>
+      </TodoForm>
+    </WrapDiv>
   );
 };
 
