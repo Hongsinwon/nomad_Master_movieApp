@@ -19,6 +19,7 @@ root.render(
   </React.StrictMode>
 );
 
+// npm install -g typescript
 // npm i styled-components
 // npm i --save-dev @types/styled-components
 // Typescript 플레이그라운드 (타입스크립트 테스트) https://www.typescriptlang.org/play
