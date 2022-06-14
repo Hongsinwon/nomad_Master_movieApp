@@ -28,6 +28,10 @@ const CreateToDo = () => {
           // register 함수가 반환하는 객체를 가져다가 input에 props로 내용을 준다.
           {...register('toDo', {
             required: 'Please write a To Do',
+            minLength: {
+              value: 5,
+              message: 'Your password is too short.',
+            },
           })}
           placeholder='오늘의 할일을 적어주세요'
         />
