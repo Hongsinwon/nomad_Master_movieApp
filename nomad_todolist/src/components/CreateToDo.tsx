@@ -25,6 +25,7 @@ const CreateToDo = () => {
     <WrapDiv>
       <TodoForm onSubmit={handleSubmit(handleValid)}>
         <TodoInput
+          // register 함수가 반환하는 객체를 가져다가 input에 props로 내용을 준다.
           {...register('toDo', {
             required: 'Please write a To Do',
           })}
