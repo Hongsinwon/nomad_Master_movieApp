@@ -1,15 +1,16 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { motion } from 'framer-motion';
+import { motion, useAnimation, useViewportScroll } from 'framer-motion';
+import { Link, useMatch } from 'react-router-dom';
 
-const Nav = styled.nav`
+const Nav = styled(motion.nav)`
   display: flex;
   justify-content: space-between;
   align-items: center;
   position: fixed;
   width: 100%;
   top: 0;
-  background-color: black;
+  /* background-color: black; */
   font-size: 14px;
   padding: 20px 60px;
   color: white;
@@ -49,11 +50,42 @@ const Item = styled.li`
   }
 `;
 
-const Circle = styled.span`
+const Circle = styled(motion.span)`
+  display: flex;
+  justify-self: center;
+  flex-direction: column;
   position: absolute;
-  width: 10px;
-  height: 10px;
+  bottom: -10px;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
   background-color: ${(props) => props.theme.red};
+`;
+
+const Search = styled.span`
+  position: relative;
+  color: white;
+  display: flex;
+  align-items: center;
+  svg {
+    height: 25px;
+  }
+`;
+
+const Input = styled(motion.input)`
+  position: absolute;
+  transform-origin: right center;
+  right: 0px;
+  padding: 5px 10px;
+  padding-left: 40px;
+  z-index: -1;
+  color: white;
+  font-size: 16px;
+  background-color: transparent;
+  border: 1px solid ${(props) => props.theme.white.lighter};
 `;
 
 const logoVariants = {
@@ -69,9 +101,51 @@ const logoVariants = {
   },
 };
 
+const navVariants = {
+  top: { backgroundColor: 'rgba(0,0,0,0)' },
+  scroll: { backgroundColor: 'rgba(0,0,0,1)' },
+};
+
 const Header = () => {
+  // 주소 받아오기
+  const homeMatch = useMatch('/');
+  const tvMatch = useMatch('/tv');
+
+  // 검색메뉴
+  const { scrollY } = useViewportScroll();
+
+  const inputAnimation = useAnimation();
+  const navAnimation = useAnimation();
+
+  const [searchOpen, setSearchOpen] = useState(false);
+
+  const toggleSearch = () => {
+    if (searchOpen) {
+      // 닫기 애니메이션
+      inputAnimation.start({
+        scaleX: 0,
+      });
+    } else {
+      // 오픈 애니메이션
+      inputAnimation.start({
+        scaleX: 1,
+      });
+    }
+    setSearchOpen((prev) => !prev);
+  };
+
+  useEffect(() => {
+    scrollY.onChange(() => {
+      if (scrollY.get() > 80) {
+        navAnimation.start('scroll');
+      } else {
+        navAnimation.start('top');
+      }
+    });
+  }, [scrollY, navAnimation]);
+
   return (
-    <Nav>
+    <Nav variants={navVariants} animate={navAnimation} initial={'top'}>
       <Col>
         <Logo
           variants={logoVariants}
@@ -89,13 +163,40 @@ const Header = () => {
         </Logo>
         <Items>
           <Item>
-            Home <Circle />
+            <Link to='/'>
+              Home {homeMatch?.pattern.end && <Circle layoutId='circle' />}
+            </Link>
           </Item>
-          <Item>Tv Shows </Item>
+          <Item>
+            <Link to='/tv'>
+              Tv Shows {tvMatch && <Circle layoutId='circle' />}
+            </Link>
+          </Item>
         </Items>
       </Col>
       <Col>
-        <button>search</button>
+        <Search>
+          <motion.svg
+            onClick={toggleSearch}
+            animate={{ x: searchOpen ? -210 : 0 }}
+            transition={{ type: 'linear' }}
+            fill='currentColor'
+            viewBox='0 0 20 20'
+            xmlns='http://www.w3.org/2000/svg'
+          >
+            <path
+              fillRule='evenodd'
+              d='M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z'
+              clipRule='evenodd'
+            ></path>
+          </motion.svg>
+          <Input
+            animate={inputAnimation}
+            initial={{ scaleX: 0 }}
+            transition={{ type: 'linear' }}
+            placeholder='검색할 영화를 작성해주세요.'
+          />
+        </Search>
       </Col>
     </Nav>
   );

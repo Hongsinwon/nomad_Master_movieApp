@@ -121,11 +121,8 @@ body {
   line-height: 1;
   font-family: sans-serif;
   font-size : 1.4rem;
-  
-  
-}
-body {
-  color: #222;
+  color: ${(props) => props.theme.white.darker};
+  background-color:#000
 }
 a {
   text-decoration: none;
