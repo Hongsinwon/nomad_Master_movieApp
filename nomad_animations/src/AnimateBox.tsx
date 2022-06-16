@@ -63,6 +63,10 @@ const AnimateBox = () => {
   return (
     <Wrapper>
       <AnimatePresence exitBeforeEnter custom={back}>
+        {/* 
+        custom 각 애니메이션 컴포넌트에 대해 동적 variants를 다르게 적용할 때 사용할 수 있는 사용자 지정 데이터입니다. 
+        https://www.framer.com/docs/component/###custom
+        */}
         <Box
           custom={back}
           variants={box}
