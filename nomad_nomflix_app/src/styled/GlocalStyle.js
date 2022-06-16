@@ -4,8 +4,8 @@ export const GlocalStyle = createGlobalStyle`
 @import url('https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap');
 
 * {
-  margin: 0;
-  padding: 0;
+  /* margin: 0;
+  padding: 0; */
   box-sizing: border-box;
 }
 
@@ -94,7 +94,6 @@ video {
   padding: 0;
   border: 0;
   font-size: 100%;
-  font: inherit;
   vertical-align: baseline;
 }
 
@@ -122,7 +121,8 @@ body {
   font-family: sans-serif;
   font-size : 1.4rem;
   color: ${(props) => props.theme.white.darker};
-  background-color:#000
+  background-color:#000;
+  overflow-x:hidden;
 }
 a {
   text-decoration: none;
