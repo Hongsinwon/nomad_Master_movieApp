@@ -1,3 +1,5 @@
+//임시파일
+
 import { useQuery } from 'react-query';
 import { motion, AnimatePresence, useViewportScroll } from 'framer-motion';
 import styled from 'styled-components';
@@ -8,6 +10,15 @@ import { useMatch, useNavigate, PathMatch } from 'react-router-dom';
 
 import { SliderContent } from '../Components/index';
 
+// icon
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  faAngleLeft,
+  faAngleRight,
+  faHeart,
+  faShareNodes,
+} from '@fortawesome/free-solid-svg-icons';
+
 // styled
 import {
   Wrapper,
@@ -16,7 +27,50 @@ import {
   MoviInfo,
   Overview,
   MainMovie,
-} from '../styled/MainBanner';
+} from '../styled/MovieBanner';
+
+// 영화 List 슬라이드 animations
+const rowVariants = {
+  hidden: (movement: boolean) => ({
+    x: movement ? window.outerWidth - 10 : -window.outerWidth + 10,
+  }),
+  visible: {
+    x: 0,
+  },
+  exit: (movement: boolean) => ({
+    x: movement ? -window.outerWidth + 10 : window.outerWidth - 10,
+  }),
+};
+
+// 영화 List hover시 animations
+const boxVariants = {
+  normal: {
+    scale: 1,
+    boxShadow: '0px 0px 5px rgba(0,0,0,0)',
+  },
+  hover: {
+    scale: 1.3,
+    boxShadow: '0px 0px 30px rgba(0,0,0,1), 0px 0px 15px rgba(0,0,0,1)',
+    y: -50,
+    transition: {
+      delay: 0.5,
+      duration: 0.3,
+      type: 'tween',
+    },
+  },
+};
+
+// 영화 List hover시 하단 설명 animations
+const infoVariants = {
+  hover: {
+    opacity: 1,
+    transition: {
+      delay: 0.5,
+      duration: 0.3,
+      type: 'tween',
+    },
+  },
+};
 
 // 영화 List click modal창 on/off animations
 const itemVariants = {
@@ -30,6 +84,8 @@ const itemVariants = {
   },
 };
 
+const offset = 6;
+
 const Home = () => {
   const history = useNavigate();
   const bigMovieMatch: PathMatch<string> | null = useMatch('movies/:movieId');
@@ -39,6 +95,38 @@ const Home = () => {
     ['movies', 'nowPlaying'],
     getMovies
   );
+
+  // 영화 리스트 애니메이션
+  const [index, setIndex] = useState(0);
+  const [leaving, setLeaving] = useState(false);
+  const [movement, setMovement] = useState(false); //좌우이동
+
+  //오른쪽으로 이동
+  const incraseRight = () => {
+    if (data) {
+      if (leaving) return;
+      toggleLeaving();
+      const totalMovies = data.results.length - 1;
+      const maxIndex = Math.floor(totalMovies / offset) - 1;
+      console.log(maxIndex);
+      setIndex((prev) => (prev === maxIndex ? 0 : prev + 1));
+      setMovement(true);
+    }
+  };
+
+  // 왼쪽으로 이동
+  const incraseLeft = () => {
+    if (data) {
+      if (leaving) return;
+      toggleLeaving();
+      const totalMovies = data.results.length - 1;
+      const maxIndex = Math.floor(totalMovies / offset) - 1;
+      setIndex((prev) => (prev === 0 ? maxIndex : prev - 1));
+      setMovement(false);
+    }
+  };
+
+  const toggleLeaving = () => setLeaving((perv) => !perv);
 
   // 영화 리스트 상세정보
   const onBoxClicked = (movieId: number) => {
@@ -51,10 +139,11 @@ const Home = () => {
     data?.results.find(
       (movie) => movie.id + '' === bigMovieMatch.params.movieId
     );
-  console.log(data);
+  console.log(clickedMovie);
+
   return (
     <Wrapper>
-      {isLoading && data ? (
+      {isLoading ? (
         <Loader>로딩중 ...</Loader>
       ) : (
         <>
@@ -72,6 +161,11 @@ const Home = () => {
             <Overview>{data?.results[0].overview}</Overview>
 
             <MainMovie
+              // layoutId={
+              //   data?.results[0].id === undefined
+              //     ? undefined
+              //     : data?.results[0].id + ''
+              // }
               onClick={() => {
                 const Id = data?.results[0].id;
                 if (Id === undefined) return;
@@ -83,15 +177,64 @@ const Home = () => {
           </Banner>
           <Slider>
             <SliderTitle>극장 동시상영</SliderTitle>
-            <SliderContent movies={data?.results!} />
-          </Slider>
+            <AnimatePresence
+              initial={false}
+              onExitComplete={toggleLeaving}
+              custom={movement}
+            >
+              <Row
+                custom={movement}
+                variants={rowVariants}
+                initial='hidden'
+                animate='visible'
+                exit='exit'
+                transition={{ type: 'tween', duration: 1 }}
+                key={index}
+              >
+                {data?.results
+                  .slice(1)
+                  .slice(offset * index, offset * index + offset)
+                  .map((movie) => (
+                    <Box
+                      layoutId={movie.id + ''}
+                      key={movie.id}
+                      whileHover='hover'
+                      initial='normal'
+                      variants={boxVariants}
+                      onClick={() => onBoxClicked(movie.id)}
+                      transition={{ type: 'tween' }}
+                      bgPhoto={makeImgagePath(movie.poster_path, 'w500')}
+                    >
+                      <Info variants={infoVariants}>
+                        <div>
+                          <h4>{movie.title}</h4>
+                          <p>
+                            <span>
+                              <FontAwesomeIcon icon={faHeart} />
+                            </span>
+                            <span>
+                              <FontAwesomeIcon icon={faShareNodes} />
+                            </span>
+                          </p>
+                        </div>
 
-          <Slider>
-            <SliderTitle>개봉 예정</SliderTitle>
-          </Slider>
-
-          <Slider>
-            <SliderTitle>최고의 평점</SliderTitle>
+                        <p>
+                          <span className='mini'>개봉일</span>
+                          {movie.release_date}
+                          <span className='mini'>평점</span>⭐{' '}
+                          {movie.vote_average} 점
+                        </p>
+                      </Info>
+                    </Box>
+                  ))}
+              </Row>
+            </AnimatePresence>
+            <LeftArrowBtn onClick={incraseLeft}>
+              <FontAwesomeIcon icon={faAngleLeft} />
+            </LeftArrowBtn>
+            <RightArrowBtn onClick={incraseRight}>
+              <FontAwesomeIcon icon={faAngleRight} />
+            </RightArrowBtn>
           </Slider>
           <AnimatePresence>
             {bigMovieMatch ? (
@@ -143,6 +286,7 @@ const Home = () => {
               </>
             ) : null}
           </AnimatePresence>
+          <SliderContent />
         </>
       )}
     </Wrapper>
@@ -162,7 +306,6 @@ const Banner = styled.div<{ bgPhoto: string }>`
 
 // 슬라이드
 const Slider = styled.div`
-  display: block;
   position: relative;
   top: -120px;
   padding: 0 60px;
