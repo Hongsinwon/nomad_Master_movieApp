@@ -7,6 +7,9 @@ interface IMovie {
   poster_path: string;
   title: string;
   overview: string;
+  release_date: string; // 개봉일
+  vote_average: string; // 평점
+  original_language: string; //언어
 }
 
 export interface IGetMoviesResult {
@@ -22,6 +25,6 @@ export interface IGetMoviesResult {
 
 export async function getMovies() {
   return (
-    await fetch(`${BASE_PATH}/movie/now_playing?api_key=${API_KEY}`)
+    await fetch(`${BASE_PATH}/movie/now_playing?api_key=${API_KEY}&language=ko`)
   ).json();
 }

@@ -6,24 +6,37 @@ import { makeImgagePath } from '../utils';
 import { useState } from 'react';
 import { useMatch, useNavigate, PathMatch } from 'react-router-dom';
 
+// icon
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  faAngleLeft,
+  faAngleRight,
+  faHeart,
+  faShareNodes,
+} from '@fortawesome/free-solid-svg-icons';
+
+// 영화 List 슬라이드 animations
 const rowVariants = {
-  hidden: {
-    x: window.outerWidth - 10,
-  },
+  hidden: (movement: boolean) => ({
+    x: movement ? window.outerWidth - 10 : -window.outerWidth + 10,
+  }),
   visible: {
     x: 0,
   },
-  exit: {
-    x: -window.outerWidth + 10,
-  },
+  exit: (movement: boolean) => ({
+    x: movement ? -window.outerWidth + 10 : window.outerWidth - 10,
+  }),
 };
 
+// 영화 List hover시 animations
 const boxVariants = {
   normal: {
     scale: 1,
+    boxShadow: '0px 0px 5px rgba(0,0,0,0)',
   },
   hover: {
     scale: 1.3,
+    boxShadow: '0px 0px 30px rgba(0,0,0,1), 0px 0px 15px rgba(0,0,0,1)',
     y: -50,
     transition: {
       delay: 0.5,
@@ -33,6 +46,7 @@ const boxVariants = {
   },
 };
 
+// 영화 List hover시 하단 설명 animations
 const infoVariants = {
   hover: {
     opacity: 1,
@@ -44,6 +58,7 @@ const infoVariants = {
   },
 };
 
+// 영화 List click modal창 on/off animations
 const itemVariants = {
   hidden: { opacity: 0 },
   active: {
@@ -70,15 +85,33 @@ const Home = () => {
   // 영화 리스트 애니메이션
   const [index, setIndex] = useState(0);
   const [leaving, setLeaving] = useState(false);
-  const incraseIndex = () => {
+  const [movement, setMovement] = useState(false); //좌우이동
+
+  //오른쪽으로 이동
+  const incraseRight = () => {
     if (data) {
       if (leaving) return;
       toggleLeaving();
       const totalMovies = data.results.length - 1;
       const maxIndex = Math.floor(totalMovies / offset) - 1;
+      console.log(maxIndex);
       setIndex((prev) => (prev === maxIndex ? 0 : prev + 1));
+      setMovement(true);
     }
   };
+
+  // 왼쪽으로 이동
+  const incraseLeft = () => {
+    if (data) {
+      if (leaving) return;
+      toggleLeaving();
+      const totalMovies = data.results.length - 1;
+      const maxIndex = Math.floor(totalMovies / offset) - 1;
+      setIndex((prev) => (prev === 0 ? maxIndex : prev - 1));
+      setMovement(false);
+    }
+  };
+
   const toggleLeaving = () => setLeaving((perv) => !perv);
 
   // 영화 리스트 상세정보
@@ -92,6 +125,7 @@ const Home = () => {
     data?.results.find(
       (movie) => movie.id + '' === bigMovieMatch.params.movieId
     );
+  console.log(clickedMovie);
 
   return (
     <Wrapper>
@@ -100,15 +134,42 @@ const Home = () => {
       ) : (
         <>
           <Banner
-            onClick={incraseIndex}
             bgPhoto={makeImgagePath(data?.results[0].backdrop_path || '')}
           >
             <Title>{data?.results[0].title}</Title>
+            <MoviInfo>
+              <span>개봉일</span>
+              {data?.results[0].release_date}
+              <span>평점</span>⭐ {data?.results[0].vote_average} 점
+              <span>언어</span>
+              {data?.results[0].original_language.toUpperCase()}
+            </MoviInfo>
             <Overview>{data?.results[0].overview}</Overview>
+
+            <MainMovie
+              // layoutId={
+              //   data?.results[0].id === undefined
+              //     ? undefined
+              //     : data?.results[0].id + ''
+              // }
+              onClick={() => {
+                const Id = data?.results[0].id;
+                if (Id === undefined) return;
+                onBoxClicked(Id);
+              }}
+            >
+              자세히 보기
+            </MainMovie>
           </Banner>
           <Slider>
-            <AnimatePresence initial={false} onExitComplete={toggleLeaving}>
+            <SliderTitle>극장 동시상영</SliderTitle>
+            <AnimatePresence
+              initial={false}
+              onExitComplete={toggleLeaving}
+              custom={movement}
+            >
               <Row
+                custom={movement}
                 variants={rowVariants}
                 initial='hidden'
                 animate='visible'
@@ -128,15 +189,38 @@ const Home = () => {
                       variants={boxVariants}
                       onClick={() => onBoxClicked(movie.id)}
                       transition={{ type: 'tween' }}
-                      bgPhoto={makeImgagePath(movie.backdrop_path, 'w500')}
+                      bgPhoto={makeImgagePath(movie.poster_path, 'w500')}
                     >
                       <Info variants={infoVariants}>
-                        <h4>{movie.title}</h4>
+                        <div>
+                          <h4>{movie.title}</h4>
+                          <p>
+                            <span>
+                              <FontAwesomeIcon icon={faHeart} />
+                            </span>
+                            <span>
+                              <FontAwesomeIcon icon={faShareNodes} />
+                            </span>
+                          </p>
+                        </div>
+
+                        <p>
+                          <span className='mini'>개봉일</span>
+                          {movie.release_date}
+                          <span className='mini'>평점</span>⭐{' '}
+                          {movie.vote_average} 점
+                        </p>
                       </Info>
                     </Box>
                   ))}
               </Row>
             </AnimatePresence>
+            <LeftArrowBtn onClick={incraseLeft}>
+              <FontAwesomeIcon icon={faAngleLeft} />
+            </LeftArrowBtn>
+            <RightArrowBtn onClick={incraseRight}>
+              <FontAwesomeIcon icon={faAngleRight} />
+            </RightArrowBtn>
           </Slider>
           <AnimatePresence>
             {bigMovieMatch ? (
@@ -148,9 +232,10 @@ const Home = () => {
                   animate='active'
                   transition={{ type: 'tween', duration: 1 }}
                 />
+
                 <BigMovie
                   layoutId={bigMovieMatch.params.movieId}
-                  style={{ top: scrollY.get() + 100 }}
+                  style={{ top: scrollY.get() + 200 }}
                 >
                   {clickedMovie && (
                     <>
@@ -162,7 +247,24 @@ const Home = () => {
                           )})`,
                         }}
                       />
-                      <BigTitle>{clickedMovie.title}</BigTitle>
+                      <BigMain>
+                        <BigTitle>{clickedMovie.title}</BigTitle>
+                        <BigText>
+                          <span>개봉일</span>
+                          {clickedMovie.release_date}
+                          <span>평점</span>⭐ {clickedMovie.vote_average} 점
+                          <span>언어</span>
+                          {clickedMovie.original_language.toUpperCase()}
+                        </BigText>
+                        <BigImg
+                          style={{
+                            backgroundImage: `url(${makeImgagePath(
+                              clickedMovie.poster_path,
+                              'w200'
+                            )})`,
+                          }}
+                        />
+                      </BigMain>
                       <BigOverbiew>{clickedMovie.overview}</BigOverbiew>
                     </>
                   )}
@@ -199,18 +301,68 @@ const Banner = styled.div<{ bgPhoto: string }>`
 `;
 
 const Title = styled.h2`
-  font-size: 68px;
-  margin-bottom: 20px;
+  font-family: 'Black Han Sans';
+  width: 50%;
+  line-height: 1.2;
+  font-size: 48px;
+  margin-bottom: 14px;
+  text-shadow: 0 0 15px #555, 0 0 7px #333, 0 0 5px #000;
+`;
+
+const MoviInfo = styled.p`
+  margin-bottom: 40px;
+  color: #ccc;
+  span {
+    margin-left: 14px;
+    margin-right: 6px;
+    padding: 1px 6px 2px;
+    border-radius: 4px;
+    font-size: 12px;
+    background-color: #000;
+    color: #999;
+
+    &:first-child {
+      margin-left: 0px;
+    }
+  }
 `;
 
 const Overview = styled.p`
-  font-size: 30px;
+  line-height: 1.4;
+  font-size: 14px;
   width: 50%;
+  color: #ccc;
+`;
+
+const MainMovie = styled(motion.button)`
+  margin-top: 32px;
+  width: 140px;
+  height: 30px;
+  font-size: 14px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  background-color: rgba(255, 255, 255, 0.7);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.8s;
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 1);
+    color: red;
+  }
 `;
 
 const Slider = styled.div`
   position: relative;
-  top: -100px;
+  top: -120px;
+  padding: 0 60px;
+`;
+
+const SliderTitle = styled.h2`
+  margin-bottom: 20px;
+  font-size: 28px;
+  text-shadow: 0 0 15px #555, 0 0 7px #333, 0 0 5px #000;
 `;
 
 const Row = styled(motion.div)`
@@ -218,16 +370,19 @@ const Row = styled(motion.div)`
   gap: 5px;
   grid-template-columns: repeat(6, 1fr);
   position: absolute;
-  width: 100%;
+  right: 60px;
+  left: 60px;
 `;
 
 const Box = styled(motion.div)<{ bgPhoto: string }>`
-  height: 200px;
+  margin-bottom: 60px;
+  height: 450px;
   background-color: #fff;
   background-image: url(${(props) => props.bgPhoto});
   background-size: cover;
   background-position: center center;
   cursor: pointer;
+  border-radius: 6px;
   &:first-child {
     transform-origin: center left;
   }
@@ -236,16 +391,89 @@ const Box = styled(motion.div)<{ bgPhoto: string }>`
   }
 `;
 
+const LeftArrowBtn = styled.button`
+  position: absolute;
+  height: 450px;
+  width: 60px;
+  left: 0px;
+
+  border: none;
+  background-color: transparent;
+  font-size: 24px;
+  color: rgba(255, 255, 255, 0.3);
+
+  transition: all 0.8s;
+  z-index: 10;
+  cursor: pointer;
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.5);
+    color: #fff;
+  }
+`;
+
+const RightArrowBtn = styled.button`
+  position: absolute;
+  height: 450px;
+  width: 60px;
+  right: 0px;
+
+  border: none;
+  background-color: transparent;
+  font-size: 24px;
+  color: rgba(255, 255, 255, 0.3);
+
+  transition: all 0.8s;
+  z-index: 10;
+  cursor: pointer;
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.5);
+    color: #fff;
+  }
+`;
+
 const Info = styled(motion.div)`
   position: absolute;
   bottom: 0;
   width: 100%;
-  padding: 10px;
+  padding: 16px 16px 12px;
   opacity: 0;
-  background-color: ${(props) => props.theme.black.lighter};
-  h4 {
-    text-align: 18px;
-    text-align: center;
+  background-color: rgba(0, 0, 0, 0.7);
+  border-radius: 10px 10px 0 0;
+  div {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 12px;
+    h4 {
+      text-align: 20px;
+    }
+    p {
+      span {
+        margin-left: 10px;
+        font-size: 10px;
+        color: #ccc;
+        transition: all 0.5s;
+
+        &:hover {
+          color: #fff;
+        }
+      }
+    }
+  }
+
+  p {
+    font-size: 12px;
+    span.mini {
+      margin-right: 8px;
+      padding: 1px 5px 2px;
+      font-size: 10px;
+      background-color: #333;
+      border-radius: 4px;
+    }
+    span.mini:last-child {
+      margin-left: 20px;
+    }
   }
 `;
 
@@ -262,13 +490,16 @@ const Overlay = styled(motion.div)`
 const BigMovie = styled(motion.div)`
   position: absolute;
   width: 40vw;
-  height: 80vh;
+  height: 65vh;
   left: 0;
   right: 0;
   margin: 0 auto;
-  border-radius: 15px;
-  overflow: hidden;
+  padding-bottom: 40px;
+  overflow-y: scroll;
   background-color: #000;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 const BigCover = styled.div`
@@ -276,21 +507,66 @@ const BigCover = styled.div`
   height: 400px;
   background-size: cover;
   background-position: center center;
+  opacity: 0.4;
+`;
+
+const BigMain = styled.div`
+  position: relative;
+  top: -300px;
+  width: 100%;
+  padding: 0 30px;
+`;
+
+const BigImg = styled.div`
+  position: absolute;
+  top: -20px;
+  right: 60px;
+  width: 250px;
+  height: 350px;
+  background-size: cover;
+  background-repeat: no-repeat;
+  box-shadow: 0 0 20px #444, 0 0 10px #222, 0 0 4px #000;
+  border-radius: 6px;
 `;
 
 const BigTitle = styled.h3`
+  position: absolute;
+  width: 400px;
+  line-height: 1.4;
+  top: 200px;
   color: ${(props) => props.theme.white.lighter};
   padding: 10px;
-  position: relative;
-  top: -60px;
-  font-size: 28px;
+  font-size: 36px;
+`;
+
+const BigText = styled.p`
+  position: absolute;
+  width: 440px;
+  top: 310px;
+  padding: 20px 10px;
+  span {
+    margin-left: 16px;
+    margin-right: 10px;
+    font-size: 12px;
+    padding: 2px 6px 1px;
+    border-radius: 4px;
+    background-color: #333;
+  }
+  span:first-child {
+    margin-left: 0;
+  }
 `;
 
 const BigOverbiew = styled.p`
   position: relative;
-  top: -60px;
-  padding: 20px;
+  top: 60px;
+  line-height: 1.6;
+  padding: 20px 40px 40px;
   color: ${(props) => props.theme.white.lighter};
+  overflow-y: scroll;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 export default Home;
