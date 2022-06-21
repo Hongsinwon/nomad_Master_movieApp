@@ -58,7 +58,7 @@ npm install recoil
 
 </br>
 
-1. `Recoil 적용방법` 👉 RecoilRoot 적용
+1. `Recoil 적용방법` 👉 RecoilRoot 적용</br>
    Recoil을 활용하기 위해 index.tsx 최상단의 <App /> 컴포넌트를 `<RecoilRoot>` 로 감싸주기만 하면 된다!
 
 </br>
