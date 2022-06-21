@@ -22,7 +22,7 @@
 
 </br>
 
-<b>⭐⭐ React Query을 ㅇ용하면 비동기 관련한 코드가 간결하고 간편해 집니다. ⭐⭐</b>
+<b>⭐⭐ React Query을 이용하면 비동기 관련한 코드가 간결하고 간편해 집니다. ⭐⭐</b>
 
 </br>
 
@@ -63,24 +63,76 @@ npm install react-query
 </br>
 
 1. 최상단 컴포넌트에서 React-Query 준비 </br>
-   `상위`에서 QueryClient를 생성 후 넣어줍니다. `ReactQueryDevtools`는 React-Query의 `개발도구`입니다.
+   `상위`에서 QueryClient를 생성 후 넣어줍니다.</br>
+   React Query는 캐시를 관리하기 위해 `QueryClient` 인스턴스를 사용합니다. </br>컴포넌트가 useQuery 훅 안에서 `QueryClient 인스턴스에 접근`할 수 있도록 `QueryClientProvider`를 컴포넌트 트리 `상위에 추가`해줘야 한다.
 
 </br>
 
+`index.tsx`
+
 ```javascript
-// npm
 import { QueryClient, QueryClientProvider } from 'react-query';
 
 // ... 이하생략
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient(); // 인스턴스 생성
 
 root.render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
       <App />
     </QueryClientProvider>
-    <ReactQueryDevtools initialIsOpen={true} />
   </React.StrictMode>
 );
+```
+
+</br>
+
+2.  ReactQueryDevtools 설정 </br>
+    `ReactQueryDevtools`는 React-Query의 `개발도구`입니다. </br>
+    React Query를 시작할 때 이러한 devTools가 필요합니다. 그들은 React Query의 모든 내부 작업을 시각화하는 데 도움이되며 문제가 발생할 경우 다시 디버깅을 `시간을 절약`할 수 잇습니다.
+
+</br>
+
+`App.tsx`
+
+```javascript
+// devtools는 react-query/devtools 패키지에 포함되어 있습니다. (추가설치X)
+import { ReactQueryDevtools } from 'react-query/devtools';
+
+// ... 이하생략
+
+function App() {
+  return (
+    <>
+      <Router />
+      {/* react query툴인데 캐시에 어떤 query가 있는지 보여줌 + 결과 data 출력 */}
+      <ReactQueryDevtools initialIsOpen={true} />
+    </>
+  );
+}
+
+export default App;
+```
+
+</br>
+
+3. api 작성
+
+</br>
+
+`api.js`
+
+```javascript
+const BASE_URL = `https://api.coinpaprika.com/v1`;
+
+export function fetchCoins() {
+  return fetch(`${BASE_URL}/coins`).then((response) => response.json());
+}
+
+export function fetchCoinInfo(coinId: string) {
+  return fetch(`${BASE_URL}/coins/${coinId}`).then((response) =>
+    response.json()
+  );
+}
 ```
