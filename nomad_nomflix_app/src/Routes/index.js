@@ -1,3 +1,3 @@
-export { default as Home } from './Home';
-export { default as TV } from './TV';
-export { default as Search } from './Search';
+export { default as Home } from "./Home";
+export { default as TV } from "./Tv";
+export { default as Search } from "./Search";

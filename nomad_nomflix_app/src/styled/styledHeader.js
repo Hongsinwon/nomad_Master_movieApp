@@ -1,5 +1,5 @@
-import styled from 'styled-components';
-import { motion } from 'framer-motion';
+import styled from "styled-components";
+import { motion } from "framer-motion";
 
 export const Nav = styled(motion.nav)`
   display: flex;
@@ -12,6 +12,8 @@ export const Nav = styled(motion.nav)`
   font-size: 16px;
   padding: 16px 60px 16px;
   color: white;
+
+  z-index: 999;
 `;
 
 export const Col = styled.div`
