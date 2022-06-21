@@ -2,7 +2,7 @@
 
 </br>
 
-> Recoil.js (https://recoiljs.org/) </br>
+> `Recoil.js` https://recoiljs.org/ </br>
 > Recoil은 React 프로젝트를 위한 많은 전역 상태관리 라이브러리들 중 하나로, 2020년 5월 Facebook에서 출시하였다. </br>
 > 그렇기에, 다른 라이브러리(Redux, Mobx)와는 달리 React 전용이며 React에 최적화되어 있다고 할 수 있다.
 
@@ -58,8 +58,8 @@ npm install recoil
 
 </br>
 
-1. Recoil 적용방법 👉 RecoilRoot 적용
-   Recoil을 활용하기 위해 index.tsx 최상단의 <App /> 컴포넌트를 <RecoilRoot> 로 감싸주기만 하면 된다!
+1. `Recoil 적용방법` 👉 RecoilRoot 적용
+   Recoil을 활용하기 위해 index.tsx 최상단의 <App /> 컴포넌트를 `<RecoilRoot>` 로 감싸주기만 하면 된다!
 
 ```javascript
 import { RecoilRoot } from 'recoil';
@@ -76,13 +76,13 @@ ReactDOM.render(
 
 2. 글로벌 State 만들기 👉 atom.ts 폴더를 만들어 Atoms 설정
 
-> Atoms 👉 Recoil의 atom() 메서드를 통해 변수에 할당 </br>
+> `Atoms` 👉 Recoil의 atom() 메서드를 통해 변수에 할당 </br>
 > Atoms는 Recoil 상태의 단위를 의미한다. 컴포넌트간에 이 상태는 공유되며, 구독 및 업데이트가 가능하다.
 >
 > 특히, atom의 상태가 업데이트되면, 이를 구독하던 컴포넌트들이 모두 리렌더링된다.
 >
-> key : 고유한 key 값 (보통 해당 atom을 생성하는 변수 명으로 지정합니다.) </br>
-> default : atom 의 초기값을 정의합니다. 정적인 값(int, string...), promise, 다른 atom 의 값으로 설정할 수 있습니다.
+> `key` : 고유한 key 값 (보통 해당 atom을 생성하는 변수 명으로 지정합니다.) </br>
+> `default` : atom 의 초기값을 정의합니다. 정적인 값(int, string...), promise, 다른 atom 의 값으로 설정할 수 있습니다.
 
 </br>
 
@@ -109,7 +109,7 @@ export const counterAtom = atom({
 </br>
 
 1. useRecoilState()</br>
-   useState() 와 유사하다. [state, setState] 튜플에 할당하며, 인자에 Atoms(혹은 Selector)를 넣어준다.
+   - `useRecoilState()` : useState() 와 유사하다. [state, setState] 튜플에 할당하며, 인자에 Atoms(혹은 Selector)를 넣어준다.
 
 ```javascript
 import { useRecoilState } from 'recoil';
@@ -133,15 +133,15 @@ function ReadWriteCount() {
 
 2. useRecoilValue(), useRecoilValue(), useResetRecoilState() 한번에 정리 </br>
 
-   - useRecoilValue() : useState() 와 유사하다. [state, setState] 튜플에 할당하며, 인자에 Atoms(혹은 Selector)를 넣어준다.
+   - `useRecoilValue()` : useState() 와 유사하다. [state, setState] 튜플에 할당하며, 인자에 Atoms(혹은 Selector)를 넣어준다.
 
     </br>
 
-   - useSetRecoilState() : 전역상태의 setter 함수만을 활용하기 위해 사용된다. 선언된 함수변수에 할당하여 사용하면 된다.
+   - `useSetRecoilState()` : 전역상태의 setter 함수만을 활용하기 위해 사용된다. 선언된 함수변수에 할당하여 사용하면 된다.
 
     </br>
 
-   - useResetRecoilState() : 전역상태를 default(초기값)으로 Reset 하기 위해 사용된다. 선언된 함수변수에 할당하여 사용하면 된다.
+   - `useResetRecoilState()` : 전역상태를 default(초기값)으로 Reset 하기 위해 사용된다. 선언된 함수변수에 할당하여 사용하면 된다.
 
 ```javascript
 import { useRecoilValue, useSetRecoilState, useResetRecoilState } from 'recoil';
