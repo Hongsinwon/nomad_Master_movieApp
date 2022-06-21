@@ -90,15 +90,10 @@ ReactDOM.render(
 ```javascript
 import { atom } from 'recoil';
 
-export const isDarkAtom = atom({
-  // key는 중첩되지 않게 설정
-  key: 'isDark',
-  // default 값은 Promise 객체도 설정가능하나, atom에서 바로 비동기 요청을 할 순 없다.
-  default: false,
-});
-
 export const counterAtom = atom({
+  // key는 중첩되지 않게 설정
   key: 'counter',
+  // default 값은 Promise 객체도 설정가능하나, atom에서 바로 비동기 요청을 할 순 없다.
   default: 1,
 });
 ```
