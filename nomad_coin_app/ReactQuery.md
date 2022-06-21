@@ -126,13 +126,71 @@ export default App;
 ```javascript
 const BASE_URL = `https://api.coinpaprika.com/v1`;
 
+// 코인 데이터(모든)
 export function fetchCoins() {
   return fetch(`${BASE_URL}/coins`).then((response) => response.json());
 }
 
+// 해당 Id와 동일한 코인 데이터
 export function fetchCoinInfo(coinId: string) {
   return fetch(`${BASE_URL}/coins/${coinId}`).then((response) =>
     response.json()
   );
 }
 ```
+
+</br>
+
+## useQuery 사용설명
+
+`공식문서` https://react-query.tanstack.com/reference/useQuery
+
+</br>
+
+```javascript
+// useQuery로 문법
+const { data, isLoading } = useQuery(queryKey, queryFunction, options);
+```
+
+</br>
+
+> `queryKey` : 문자열과 배열을 넣을 수 있습니다. 쿼리 키가 가지는 유연함이 곧 캐싱을 처리를 쉽게 만들어준다. `쿼리 키가 다르면 캐싱도 별도로 관리`하기 때문입니다.
+>
+> key는 꼭 string일 필요는 없고, 배열과 객체도 들어갈 수 있는데, 이 경우 `여러가지 데이터`들을 담을 수 있다.
+
+</br>
+
+1. queryKey 사용 예시
+
+```javascript
+// useQuery로 문법
+useQuery(['todo', 1], ...)
+useQuery(['todo', 2], ...)
+```
+
+</br>
+
+```javascript
+// 객체 필드의 값이 달라도 다른 키로 취급한다
+useQuery(['todo', { preview: true }], ...)
+useQuery(['todo', { preview: false }], ...)
+```
+
+</br>
+
+```javascript
+// 객체 필드의 순서가 달라도 내용이 같으면 같은 키로 취급한다
+useQuery(['todo', { preview: true, status: 'done' }], ...)
+useQuery(['todo', { status: 'done', preview: true }], ...)
+```
+
+</br>
+
+> `queryFunction` : 서버에서 데이터를 요청하고 Promise를 리턴하는 함수를 전달합니다. </br>
+> 즉 axios.get(...), fetch(...) 등을 리턴하는 함수입니다
+
+</br>
+
+## React Query 사용(서버 데이터 가져오기) 및 설명
+
+</br>
