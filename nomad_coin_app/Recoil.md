@@ -14,10 +14,10 @@
 
 <b>👍 장점 </b>
 
-1. 배우기 쉬움
-2. 비동기데이터, 상태지속성, 매개변수화된 selector를 처리할 수 있는 솔룻
-3. 캐싱지원
-4. try catch 사용을 안해도 되는 부분이 있음.
+1. 배우기 쉽습니다.
+2. 비동기데이터, 상태지속성, 매개변수화된 selector를 처리할 수 있는 솔룻.
+3. 캐싱지원.
+4. try catch 사용을 안해도 되는 부분이 있습니다.
 
 </br>
 
@@ -83,7 +83,7 @@ ReactDOM.render(
 >
 > 특히, atom의 상태가 업데이트되면, 이를 구독하던 컴포넌트들이 모두 리렌더링된다.
 >
-> `key` : 고유한 key 값 (보통 해당 atom을 생성하는 변수 명으로 지정합니다.) </br> > `default` : atom 의 초기값을 정의합니다. 정적인 값(int, string...), promise, 다른 atom 의 값으로 설정할 수 있습니다.
+> `key` : 고유한 key 값 (보통 해당 atom을 생성하는 변수 명으로 지정합니다.) </br> `default` : atom 의 초기값을 정의합니다. 정적인 값(int, string...), promise, 다른 atom 의 값으로 설정할 수 있습니다.
 
 </br>
 
@@ -139,22 +139,29 @@ function ReadWriteCount() {
 
    - `useResetRecoilState()` : 전역상태를 `default(초기값)으로 Reset 하기 위해 사용`된다. 선언된 함수변수에 할당하여 사용하면 된다.
 
+  </br>
+  
 ```javascript
 import { useRecoilValue, useSetRecoilState, useResetRecoilState } from 'recoil';
 import { counterAtom } from '../atom.ts';
 
 function ReadWriteCount() {
-  const countValue = useRecoilValue(countState); // 구독하는 atom 의 값만 반환
-  const setCountValue = useSetRecoilState(countState); // 값을 변경하는 함수만 반환
-  const resetCount = useResetRecoilState(countState); // 설정된 기본값으로 리셋
+const countValue = useRecoilValue(countState); // 구독하는 atom 의 값만 반환
+const setCountValue = useSetRecoilState(countState); // 값을 변경하는 함수만 반환
+const resetCount = useResetRecoilState(countState); // 설정된 기본값으로 리셋
 
-  return (
-    <>
-      <h2>{countValue}</h2>
-      <button onClick={() => setCountValue(count + 1)}>증가</button>
-      <button onClick={() => setCountValue(count - 1)}>감소</button>
-      <button onClick={resetCount}>리셋 버튼</button>
-    </>
-  );
+return (
+<>
+
+<h2>{countValue}</h2>
+<button onClick={() => setCountValue(count + 1)}>증가</button>
+<button onClick={() => setCountValue(count - 1)}>감소</button>
+<button onClick={resetCount}>리셋 버튼</button>
+</>
+);
 }
+
+```
+
+
 ```
