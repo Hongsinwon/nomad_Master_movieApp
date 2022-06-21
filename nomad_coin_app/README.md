@@ -109,7 +109,7 @@ export const counterAtom = atom({
 </br>
 
 1. useRecoilState()</br>
-   - `useRecoilState()` : useState() 와 유사하다. [state, setState] 튜플에 할당하며, 인자에 Atoms(혹은 Selector)를 넣어준다.
+   - `useRecoilState()` : useState() 와 유사하다. `[state, setState] 튜플에 할당`하며, 인자에 Atoms(혹은 Selector)를 넣어준다.
 
 ```javascript
 import { useRecoilState } from 'recoil';
@@ -133,15 +133,15 @@ function ReadWriteCount() {
 
 2. useRecoilValue(), useRecoilValue(), useResetRecoilState() 한번에 정리 </br>
 
-   - `useRecoilValue()` : useState() 와 유사하다. [state, setState] 튜플에 할당하며, 인자에 Atoms(혹은 Selector)를 넣어준다.
+   - `useRecoilValue()` : 전역상태의 `state 상태값만을 참조`하기 위해 사용된다. 선언된 변수에 할당하여 사용하면 된다.
 
     </br>
 
-   - `useSetRecoilState()` : 전역상태의 setter 함수만을 활용하기 위해 사용된다. 선언된 함수변수에 할당하여 사용하면 된다.
+   - `useSetRecoilState()` : 전역상태의 `setter 함수만을 활용`하기 위해 사용된다. 선언된 함수변수에 할당하여 사용하면 된다.
 
     </br>
 
-   - `useResetRecoilState()` : 전역상태를 default(초기값)으로 Reset 하기 위해 사용된다. 선언된 함수변수에 할당하여 사용하면 된다.
+   - `useResetRecoilState()` : 전역상태를 `default(초기값)으로 Reset 하기 위해 사용`된다. 선언된 함수변수에 할당하여 사용하면 된다.
 
 ```javascript
 import { useRecoilValue, useSetRecoilState, useResetRecoilState } from 'recoil';
