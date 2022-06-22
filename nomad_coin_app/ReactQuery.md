@@ -234,7 +234,7 @@ import { useQuery } from 'react-query';
 
 const { isLoading, data } = useQuery<ICoin[]>("allCoins", fetchCoins);
 
-console.log(isLoading, data )
+console.log(isLoading, data)
 ```
 
 </br></br>
@@ -247,10 +247,10 @@ import { useQuery } from 'react-query';
 const { isLoading: infoLoading, data: infoData } =
   useQuery < InfoData > (['info', coinId], () => fetchCoinInfo(coinId));
 
-console.log(infoLoading, infoData);
+console.log(infoLoading, infoData); 
 
 const { isLoading: tickersLoading, data: tickersData } =
   useQuery < PriceData > (['tickers', coinId], () => fetchCoinTickers(coinId), { enabled: !!coinId });
 
-console.log(tickersLoading, infoDtickersDataata);
+console.log(tickersLoading, infoDtickersDataata); 
 ```
